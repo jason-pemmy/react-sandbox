@@ -22,7 +22,8 @@ class Header extends Component {
 						<div className="col-sm-12">
 							<div className="logo-container">Logo</div>				
 							<ul>
-								<li><Link to="/">Home</Link></li>
+								<li><Link to="/">Promise</Link></li>
+								<li><Link to="/home">Home</Link></li>
 								<li><Link to={"/about/" + this.color }>About</Link></li>
 							</ul> 
 						</div>

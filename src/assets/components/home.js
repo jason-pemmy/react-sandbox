@@ -13,7 +13,14 @@ class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.setName = this.setName.bind(this);
-		this.state = {tileName: ""}	
+		this.checkLogin = this.checkLogin.bind(this);
+		this.handleLogin = this.handleLogin.bind(this);
+		this.handleLogout = this.handleLogout.bind(this);
+		this.state = {
+			tileName: "",
+			isLoggedIn: false,
+			firstLoad: true
+		}	
 	}
 
 	setName(e) {
@@ -22,31 +29,69 @@ class Home extends Component {
 
 	//lifecycle hook
 	componentDidMount() {
-		console.log("component ready to go");
+		console.log("component initialized");
 	}
 
 	//lifecycle hook
 	componentWillUnmount() {
 		console.log("component cleaned up");
 	}
+
+	handleLogin() {
+		this.setState({isLoggedIn: true});	
+	}
+
+	handleLogout() {
+		this.setState({isLoggedIn: false});
+	}
+
+	checkLogin() {		
+		this.state.firstLoad ? this.setState({firstLoad: false}) : this.setState({firstLoad: true});
+	}
 	
 	render() {
 		const tileName = this.state.tileName;
+		const isLoggedIn = this.state.isLoggedIn;		
+		const isFirstLoad = this.state.firstLoad;
+		const numbers = [1,2,3,4,5];
+		const listItems = numbers.map((number) => 
+			<li key={number.toString()}>{number}</li>
+		);
+
+		let button = null;
+
+		if(isFirstLoad) {
+			button = null;			
+		}else if(!isFirstLoad && !isLoggedIn){			
+			button = <button onClick={this.handleLogin}>Login</button>
+		}else {
+			button = <button onClick={this.handleLogout}>Logout</button>
+		}
+
 		return (
 			<div className="home-container">
 				<div className="container">
 					<div className="row">
 						<div className="col-sm-12">
-							<h1>Home</h1>
-							<p><button name="cool-btn" onClick={this.setName}>Click me</button></p>
-						</div>
+							<div className="">
+								<h1>Home</h1>
+								<TileContainer tileName={tileName}></TileContainer>
+							</div>
+						</div>	
 					</div>
 					<div className="row">
 						<div className="col-sm-12">
+							<p>
+								<button name="cool-btn" onClick={this.setName}>Click me</button>
+								<button name="" onClick={this.checkLogin}>Logged in?</button>
+							</p>							
+							{button}
+						</div>
+					</div>					
+					<div className="row">
+						<div className="col-sm-12">
 							<div className="">
-								<TileContainer tileName={tileName}>
-
-								</TileContainer>
+								<ul>{listItems}</ul>
 							</div>
 						</div>	
 					</div>
