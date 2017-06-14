@@ -1,22 +1,32 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Equalizer from 'react-equalizer';
+import {TweenMax} from "gsap";
 import '../css/promise.min.css';
 
-function Tile(props) {
-    const listItems = props.tileData.slice(0,16).map((data) =>         
-        <div className="col-md-2 col-sm-3 col-xs-6" key={data.id}>
-            <div className="tile">            
-                <img src={data.thumbnailUrl} alt=""/>
-                <p>{data.title}</p>                        
+class Tile extends Component { 
+
+    componentDidMount() {
+        var node = ReactDOM.findDOMNode(this);        
+        TweenMax.fromTo(node, 1, {opacity: 0}, {opacity: 1}, 0.5)
+    }
+
+    render() {
+        const listItems = this.props.tileData.slice(0,16).map((data) =>         
+            <div className="col-md-2 col-sm-3 col-xs-6" key={data.id}>
+                <div className="tile">            
+                    <img src={data.thumbnailUrl} alt=""/>
+                    <p>{data.title}</p>                        
+                </div>
+            </div>                
+        );    
+            
+        return (
+            <div className="tile-container">
+                <Equalizer>{listItems}</Equalizer>  
             </div>
-        </div>                
-    );
-         
-    return (
-        <div className="tile-container">
-            <Equalizer>{listItems}</Equalizer>  
-        </div>
-    ); 
+        );
+    }
 }
 
 class Promise extends Component { 
