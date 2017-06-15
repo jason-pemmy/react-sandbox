@@ -5,14 +5,20 @@ import {TweenMax} from "gsap";
 import '../css/promise.min.css';
 
 class Tile extends Component { 
-
-    componentDidMount() {
-        var node = ReactDOM.findDOMNode(this);        
-        TweenMax.fromTo(node, 1, {opacity: 0}, {opacity: 1}, 0.5)
+    constructor(props) {
+        super(props);
+        this.state = {node: {}}
     }
 
-    render() {
-        const listItems = this.props.tileData.slice(0,16).map((data) =>         
+    componentDidMount() {
+        var node = ReactDOM.findDOMNode(this);
+        this.setState({node: node});
+    }
+
+    render() {        
+        this.props.showTile ? TweenMax.to(this.state.node, 1, {opacity: 0}) : TweenMax.to(this.state.node, 1, {opacity: 1});
+
+        const listItems = this.props.tileData.slice(0,16).map((data) =>       
             <div className="col-md-2 col-sm-3 col-xs-6" key={data.id}>
                 <div className="tile">            
                     <img src={data.thumbnailUrl} alt=""/>
@@ -32,9 +38,11 @@ class Tile extends Component {
 class Promise extends Component { 
     constructor(props) {
         super(props);
+        this.doShowTile = this.doShowTile.bind(this);
 
         this.state = { 
-            data: [] 
+            data: [],
+            showTile: false 
         }
     }
 
@@ -50,18 +58,28 @@ class Promise extends Component {
     componentDidMount() {
 		console.log("component initialized");
         this.loadData();
-	}   
+	}
+
+    doShowTile() {
+        this.state.showTile ? this.setState({showTile: false}) : this.setState({showTile: true});        
+    }   
 
     render() {
         const tileData = this.state.data;
+        const showTile = this.state.showTile;
+        //console.log("****--"+ showTile);
 
         return(
             <div className="promise-container">                
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-12">
-                            <h1>Promises</h1> 
-                            <Tile className="tile-container" tileData={tileData}></Tile>
+                            <h1>Promises</h1>
+                            <p><button onClick={this.doShowTile}>Toggle Tile</button></p> 
+                            <Tile 
+                                className="tile-container" 
+                                tileData={tileData} 
+                                showTile={showTile}></Tile>
                         </div>
                     </div>
                 </div>                
