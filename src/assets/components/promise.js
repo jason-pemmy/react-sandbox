@@ -18,7 +18,7 @@ class Tile extends Component {
     render() {        
         this.props.showTile ? TweenMax.to(this.state.node, 1, {opacity: 0}) : TweenMax.to(this.state.node, 1, {opacity: 1});
 
-        const listItems = this.props.tileData.slice(0,16).map((data) =>       
+        const listItems = this.props.tileData.slice(0,16).map((data) =>   
             <div className="col-md-2 col-sm-3 col-xs-6" key={data.id}>
                 <div className="tile">            
                     <img src={data.thumbnailUrl} alt=""/>
@@ -67,7 +67,6 @@ class Promise extends Component {
     render() {
         const tileData = this.state.data;
         const showTile = this.state.showTile;
-        //console.log("****--"+ showTile);
 
         return(
             <div className="promise-container">                

@@ -1,7 +1,23 @@
 .about-container {
+    text-align: center;    
     padding-top: 20px;
     
     p {
         color: burlywood; 
+    }
+
+    .tile-container {
+        display: inline-block;
+        width: 30%;
+        height: 300px;
+        margin: 0 10px 0 0; 
+        .img-container {
+            width: 100%;
+            height: 0;
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            padding-top: 100%;
+        }
     }    
 }
