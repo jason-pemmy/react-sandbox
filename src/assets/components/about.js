@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {TweenMax} from "gsap";
+import {TimelineMax} from "gsap";
 import '../css/about.min.css';
 
 class FeatureTile extends React.Component {
@@ -16,19 +16,24 @@ class FeatureTile extends React.Component {
         this.setState({node: node});        
     }
 
+    handleTileClick(tileID) {
+        console.log("click: "+ tileID);
+        var tl = new TimelineMax();
+        tl.fromTo(this.state.tile, .3, {opacity: 1, scale:1}, {opacity: 0, scale:0, delay: 0.1 * this.props.id});
+    }
+
     render() { 
-        //console.log("===: "+ this.props.imgUrl);
-        const style = {backgroundImage: "url("+this.props.imgUrl+")"}
-        TweenMax.to(this.state.node, 1, {rotation:360, y:100}, 0.5);
+        const style = {backgroundImage: "url("+this.props.imgUrl+")"};
+        var tl = new TimelineMax();
+        tl.fromTo(this.state.node, .3, {opacity: 0, scale:0}, {opacity: 1, scale:1, delay: 0.1 * this.props.id});
         
         return(
-            <div className="tile-container">
+            <div className="tile-container" onClick={() => this.handleTileClick(this.props.id)}>
                 <div className="img-container" style={style}>
                     <div className="img-overlay">
                         <p>{this.props.title}</p> 
                     </div>
                 </div>
-                
             </div>
         );
     }
@@ -51,13 +56,15 @@ class ProductFeatureContainer extends Component {
         this.loadData();
     }
 
-    render() {    
-        const tileData = this.state.apiData.slice(0,20).map((data) =>
+    render() {            
+        const tileData = this.state.apiData.slice(0,20).map((data) =>            
             <FeatureTile 
                 imgUrl={data.url} 
                 title={data.title} 
                 key={data.id} 
-            />
+                id={data.id}
+                numObs={20}
+            />            
         );
 
         return(
