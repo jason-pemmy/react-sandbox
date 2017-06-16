@@ -16,7 +16,7 @@ class FeatureTile extends React.Component {
         this.setState({node: node});        
     }
 
-    handleTileClick(tileID) {
+    handleTileClick(tileID, tiles) {
         console.log("click: "+ tileID);
         var tl = new TimelineMax();
         tl.fromTo(this.state.tile, .3, {opacity: 1, scale:1}, {opacity: 0, scale:0, delay: 0.1 * this.props.id});
@@ -24,11 +24,14 @@ class FeatureTile extends React.Component {
 
     render() { 
         const style = {backgroundImage: "url("+this.props.imgUrl+")"};
+        const tiles = [];
+        tiles.push(this.state.node);
+
         var tl = new TimelineMax();
         tl.fromTo(this.state.node, .3, {opacity: 0, scale:0}, {opacity: 1, scale:1, delay: 0.1 * this.props.id});
         
         return(
-            <div className="tile-container" onClick={() => this.handleTileClick(this.props.id)}>
+            <div className="tile-container" onClick={() => this.handleTileClick(this.props.id, tiles)}>
                 <div className="img-container" style={style}>
                     <div className="img-overlay">
                         <p>{this.props.title}</p> 
