@@ -8,7 +8,9 @@ class FeatureTile extends React.Component {
         super(props);
         this.state = {
             node: {}
-        }        
+        }   
+
+        this.handleTileClick = this.handleTileClick.bind(this);     
     }
 
     componentDidMount() {
@@ -23,15 +25,13 @@ class FeatureTile extends React.Component {
     }
 
     render() { 
-        const style = {backgroundImage: "url("+this.props.imgUrl+")"};
-        const tiles = [];
-        tiles.push(this.state.node);
+        const style = {backgroundImage: "url("+this.props.imgUrl+")"};  
 
         var tl = new TimelineMax();
         tl.fromTo(this.state.node, .3, {opacity: 0, scale:0}, {opacity: 1, scale:1, delay: 0.1 * this.props.id});
         
-        return(
-            <div className="tile-container" onClick={() => this.handleTileClick(this.props.id, tiles)}>
+        return (
+            <div className="tile-container" onClick={() => this.handleTileClick(this.props.id)}>
                 <div className="img-container" style={style}>
                     <div className="img-overlay">
                         <p>{this.props.title}</p> 
@@ -59,15 +59,15 @@ class ProductFeatureContainer extends Component {
         this.loadData();
     }
 
-    render() {            
-        const tileData = this.state.apiData.slice(0,20).map((data) =>            
+    render() {                    
+        const tileData = this.state.apiData.slice(0,20).map((data) =>                        
             <FeatureTile 
                 imgUrl={data.url} 
                 title={data.title} 
                 key={data.id} 
                 id={data.id}
                 numObs={20}
-            />            
+            />
         );
 
         return(
